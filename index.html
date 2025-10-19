@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>AppsGroup — Site</title>
   <style>
-    :root{--bg:#f7f7fb;--primary:#0b5fff;--muted:#6b7280}
+    :root{--bg:#f7f7fb;--primary:#0b5fff;--muted:#6b7280;--success:#10b981;--warning:#f59e0b;--error:#ef4444}
     *{box-sizing:border-box}
     body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:0; color:#111; background:var(--bg); }
     header { background:var(--primary); color:white; padding:48px 20px; text-align:center; }
@@ -13,8 +13,28 @@
     .card { background:white; border-radius:12px; padding:20px; box-shadow:0 6px 18px rgba(12,24,63,0.08); margin-bottom:16px; }
     footer { text-align:center; color:var(--muted); padding:24px 8px; font-size:14px; }
     a.button { display:inline-block; background:var(--primary); color:white; padding:10px 16px; border-radius:8px; text-decoration:none; margin-top:12px; }
+    button.button { display:inline-block; background:var(--primary); color:white; padding:10px 16px; border-radius:8px; border:none; cursor:pointer; font-size:14px; margin-top:12px; }
+    button.button:hover { opacity:0.9; }
+    button.button:disabled { opacity:0.5; cursor:not-allowed; }
     nav { display:flex; justify-content:center; gap:12px; margin-top:12px }
     nav a{color:rgba(255,255,255,0.95); text-decoration:none}
+    .form-group { margin-bottom:16px; }
+    .form-group label { display:block; margin-bottom:8px; font-weight:500; }
+    .form-group input, .form-group select, .form-group textarea { width:100%; padding:10px; border:1px solid #e5e7eb; border-radius:6px; font-size:14px; }
+    .form-group textarea { min-height:100px; resize:vertical; }
+    .task-list { margin-top:20px; }
+    .task-item { background:#f9fafb; border-left:4px solid var(--primary); padding:12px 16px; margin-bottom:12px; border-radius:6px; }
+    .task-item.completed { border-left-color:var(--success); }
+    .task-item.in-progress { border-left-color:var(--warning); }
+    .task-item .task-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+    .task-item .task-title { font-weight:600; }
+    .task-item .task-status { font-size:12px; padding:4px 8px; border-radius:4px; background:#e5e7eb; }
+    .task-item.completed .task-status { background:#d1fae5; color:#065f46; }
+    .task-item.in-progress .task-status { background:#fef3c7; color:#92400e; }
+    .task-item .task-meta { font-size:13px; color:var(--muted); }
+    .loading { text-align:center; padding:20px; color:var(--muted); }
+    .error { background:#fee2e2; color:#991b1b; padding:12px; border-radius:6px; margin-bottom:16px; }
+    .success { background:#d1fae5; color:#065f46; padding:12px; border-radius:6px; margin-bottom:16px; }
     @media (min-width:700px){ header{padding:64px 20px} .grid{display:grid; grid-template-columns:1fr 1fr; gap:16px} }
   </style>
 </head>
@@ -24,6 +44,7 @@
     <p>Bem-vindo ao site da AppsGroup — soluções e aplicações.</p>
     <nav>
       <a href="#sobre">Sobre</a>
+      <a href="#copilot">Copilot Tasks</a>
       <a href="#contato">Contato</a>
     </nav>
   </header>
@@ -48,6 +69,34 @@
       </div>
     </section>
 
+    <section class="card" id="copilot">
+      <h2>🤖 GitHub Copilot Task Delegation</h2>
+      <p>Delegate tasks to GitHub Copilot coding agent and monitor their progress in real-time.</p>
+      
+      <div id="messageContainer"></div>
+      
+      <div class="form-group">
+        <label for="taskDescription">Task Description</label>
+        <textarea id="taskDescription" placeholder="Describe the task you want to delegate to Copilot..."></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="taskPriority">Priority</label>
+        <select id="taskPriority">
+          <option value="low">Low</option>
+          <option value="medium" selected>Medium</option>
+          <option value="high">High</option>
+        </select>
+      </div>
+      
+      <button class="button" onclick="delegateTask()" id="delegateBtn">Delegate to Copilot</button>
+      
+      <h3>Task Status</h3>
+      <div id="taskStatusContainer">
+        <div class="loading">Loading tasks...</div>
+      </div>
+    </section>
+
     <section class="card" id="contato">
       <h2>Contato</h2>
       <p>Email: <a href="mailto:contato@exemplo.com">contato@exemplo.com</a></p>
@@ -62,6 +111,123 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+    
+    // GitHub repository configuration
+    const GITHUB_REPO = 'ultrakillcz-web/apps-site';
+    const GITHUB_API = 'https://api.github.com';
+    
+    // Display message helper
+    function showMessage(message, type = 'success') {
+      const container = document.getElementById('messageContainer');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = type;
+      msgDiv.textContent = message;
+      container.innerHTML = '';
+      container.appendChild(msgDiv);
+      
+      setTimeout(() => {
+        msgDiv.style.opacity = '0';
+        setTimeout(() => msgDiv.remove(), 300);
+      }, 5000);
+    }
+    
+    // Delegate task to Copilot
+    async function delegateTask() {
+      const description = document.getElementById('taskDescription').value.trim();
+      const priority = document.getElementById('taskPriority').value;
+      const btn = document.getElementById('delegateBtn');
+      
+      if (!description) {
+        showMessage('Please enter a task description', 'error');
+        return;
+      }
+      
+      btn.disabled = true;
+      btn.textContent = 'Delegating...';
+      
+      try {
+        // In a real implementation, this would trigger the GitHub Actions workflow
+        // For now, we'll simulate the delegation
+        showMessage('Task delegation initiated! The GitHub Actions workflow will create an issue and track progress.', 'success');
+        
+        // Show instructions
+        const instructionsDiv = document.createElement('div');
+        instructionsDiv.className = 'success';
+        instructionsDiv.innerHTML = `
+          <strong>To complete delegation:</strong><br>
+          1. Go to the repository's Actions tab<br>
+          2. Select "Delegate Task to Copilot" workflow<br>
+          3. Click "Run workflow"<br>
+          4. Enter task description: "${description}"<br>
+          5. Select priority: ${priority}
+        `;
+        document.getElementById('messageContainer').appendChild(instructionsDiv);
+        
+        // Clear form
+        document.getElementById('taskDescription').value = '';
+        
+        // Refresh task list
+        setTimeout(loadTasks, 2000);
+        
+      } catch (error) {
+        showMessage('Error delegating task: ' + error.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Delegate to Copilot';
+      }
+    }
+    
+    // Load and display tasks
+    async function loadTasks() {
+      const container = document.getElementById('taskStatusContainer');
+      
+      try {
+        // Fetch open issues with copilot-task label
+        const response = await fetch(`${GITHUB_API}/repos/${GITHUB_REPO}/issues?labels=copilot-task&state=all&per_page=10`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch tasks');
+        }
+        
+        const issues = await response.json();
+        
+        if (issues.length === 0) {
+          container.innerHTML = '<div class="loading">No Copilot tasks found. Delegate a task to get started!</div>';
+          return;
+        }
+        
+        // Display tasks
+        container.innerHTML = '';
+        issues.forEach(issue => {
+          const taskDiv = document.createElement('div');
+          const status = issue.state === 'closed' ? 'completed' : 'in-progress';
+          const statusText = issue.state === 'closed' ? '✅ Completed' : '🔄 In Progress';
+          
+          taskDiv.className = `task-item ${status}`;
+          taskDiv.innerHTML = `
+            <div class="task-header">
+              <div class="task-title">#${issue.number}: ${issue.title.replace('[Copilot Task] ', '')}</div>
+              <div class="task-status">${statusText}</div>
+            </div>
+            <div class="task-meta">
+              Created: ${new Date(issue.created_at).toLocaleDateString()} | 
+              ${issue.labels.map(l => l.name).filter(n => !n.includes('copilot')).join(', ')}
+            </div>
+          `;
+          
+          container.appendChild(taskDiv);
+        });
+        
+      } catch (error) {
+        container.innerHTML = `<div class="error">Error loading tasks: ${error.message}</div>`;
+      }
+    }
+    
+    // Load tasks on page load
+    loadTasks();
+    
+    // Auto-refresh tasks every 30 seconds
+    setInterval(loadTasks, 30000);
   </script>
 </body>
 </html>

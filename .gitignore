@@ -1,0 +1,10 @@
+# Copilot task tracking files (keep status report, exclude individual task files)
+.copilot-tasks/task-*.json
+
+# Common files to ignore
+.DS_Store
+*.log
+node_modules/
+dist/
+.env
+.env.local

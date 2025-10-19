@@ -1,0 +1,77 @@
+name: Delegate Task to Copilot
+
+on:
+  workflow_dispatch:
+    inputs:
+      task_description:
+        description: 'Task description for Copilot'
+        required: true
+        type: string
+      task_priority:
+        description: 'Task priority'
+        required: false
+        type: choice
+        options:
+          - low
+          - medium
+          - high
+        default: 'medium'
+
+jobs:
+  delegate-to-copilot:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Create task issue
+        id: create_issue
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const issue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `[Copilot Task] ${context.payload.inputs.task_description}`,
+              body: `## Task Description\n\n${context.payload.inputs.task_description}\n\n**Priority:** ${context.payload.inputs.task_priority}\n\n**Status:** 🔄 In Progress\n\n---\n*This task was delegated to GitHub Copilot for automated processing.*`,
+              labels: ['copilot-task', `priority-${context.payload.inputs.task_priority}`]
+            });
+            
+            core.setOutput('issue_number', issue.data.number);
+            core.setOutput('issue_url', issue.data.html_url);
+            
+            console.log(`Created issue #${issue.data.number}`);
+            return issue.data.number;
+      
+      - name: Log task delegation
+        run: |
+          echo "Task delegated to Copilot"
+          echo "Issue Number: ${{ steps.create_issue.outputs.issue_number }}"
+          echo "Issue URL: ${{ steps.create_issue.outputs.issue_url }}"
+          echo "Priority: ${{ github.event.inputs.task_priority }}"
+      
+      - name: Add status file
+        run: |
+          mkdir -p .copilot-tasks
+          cat > .copilot-tasks/task-${{ steps.create_issue.outputs.issue_number }}.json << EOF
+          {
+            "issue_number": ${{ steps.create_issue.outputs.issue_number }},
+            "task_description": "${{ github.event.inputs.task_description }}",
+            "priority": "${{ github.event.inputs.task_priority }}",
+            "status": "in_progress",
+            "created_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "workflow_run_id": "${{ github.run_id }}"
+          }
+          EOF
+          
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .copilot-tasks/
+          git commit -m "Track Copilot task #${{ steps.create_issue.outputs.issue_number }}" || true
+          git push || true

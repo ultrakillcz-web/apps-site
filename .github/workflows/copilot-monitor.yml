@@ -1,0 +1,110 @@
+name: Monitor Copilot Progress
+
+on:
+  schedule:
+    # Run every hour
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  monitor-tasks:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Check Copilot tasks
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            // Get all open issues with copilot-task label
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'copilot-task',
+              state: 'open'
+            });
+            
+            console.log(`Found ${issues.data.length} open Copilot tasks`);
+            
+            // Check for associated PRs
+            for (const issue of issues.data) {
+              const prs = await github.rest.pulls.list({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'all'
+              });
+              
+              // Find PRs that reference this issue
+              const relatedPRs = prs.data.filter(pr => 
+                pr.body && pr.body.includes(`#${issue.number}`)
+              );
+              
+              if (relatedPRs.length > 0) {
+                const pr = relatedPRs[0];
+                let status = '🔄 In Progress';
+                
+                if (pr.merged) {
+                  status = '✅ Completed';
+                } else if (pr.state === 'closed') {
+                  status = '❌ Closed';
+                } else if (pr.draft) {
+                  status = '📝 Draft';
+                }
+                
+                // Update issue with PR status
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  body: `**Progress Update:** ${status}\n\nRelated PR: #${pr.number}`
+                });
+                
+                // If completed, close the issue
+                if (pr.merged) {
+                  await github.rest.issues.update({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: issue.number,
+                    state: 'closed',
+                    labels: [...issue.labels.map(l => l.name), 'completed']
+                  });
+                }
+              }
+            }
+            
+            // Generate status report
+            const report = {
+              timestamp: new Date().toISOString(),
+              total_tasks: issues.data.length,
+              tasks: issues.data.map(issue => ({
+                number: issue.number,
+                title: issue.title,
+                created_at: issue.created_at,
+                labels: issue.labels.map(l => l.name)
+              }))
+            };
+            
+            // Save report
+            fs.mkdirSync('.copilot-tasks', { recursive: true });
+            fs.writeFileSync(
+              '.copilot-tasks/status-report.json',
+              JSON.stringify(report, null, 2)
+            );
+      
+      - name: Commit status report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .copilot-tasks/status-report.json
+          git commit -m "Update Copilot tasks status report" || echo "No changes to commit"
+          git push || echo "Nothing to push"
