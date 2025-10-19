@@ -1,11 +1,10 @@
-
-/* Styles Switcher */
+﻿/* Styles Switcher */
 
 #style-switcher {
 background: #fff none repeat scroll 0 0;
 border-radius: 0 0 3px;
 box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2);
-left: 0;
+right: 0;
 position: fixed;
 top: 168px;
 width: 220px;
@@ -30,14 +29,14 @@ background: #ECECEC none repeat scroll 0 0;
 display: block;
 height: 50px;
 position: absolute;
-right: -50px;
+left: -50px;
 top: 0;
 width: 50px;
 }
 #style-switcher h2 a i {
 color: #fff;
 font-size: 26px;
-left: 12px;
+right: 12px;
 position: absolute;
 top: 12px;
 }
@@ -115,7 +114,7 @@ width: 35px;
   box-shadow: 0 0 0px 2px #fff;
 }
 .icon-2x{
-	color: #fff;
+    color: #fff;
 font-size:22px;
 line-height:30px;
 }
