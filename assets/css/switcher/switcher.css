@@ -1,126 +1,106 @@
 ﻿/* Styles Switcher */
 
 #style-switcher {
-background: #fff none repeat scroll 0 0;
-border-radius: 0 0 3px;
-box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2);
-inset-inline-end: 0;
-position: fixed;
-inset-block-start: 168px;
-inline-size: 220px;
-z-index: 9999;
+    background: #fff none repeat scroll 0 0;
+    border-radius: 0 0 3px 3px;
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2);
+    position: fixed;
+    right: 0;
+    top: 168px;
+    width: 220px;
+    z-index: 9999;
 }
 #style-switcher div {
-padding: 0px 10px;
+    padding: 0 10px;
 }
 #style-switcher h2 {
-color: #333;
-font-family: montserrat,sans-serif;
-font-size: 14px;
-margin-block-end: 0;
-margin-right: 0;
-margin-block-start: 0;
-padding: 10px 0;
-text-align: center;
-text-transform: uppercase;
+    color: #333;
+    font-family: montserrat, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 10px 0;
+    position: relative;
+    text-align: center;
+    text-transform: uppercase;
 }
 #style-switcher h2 a {
-background: #ECECEC none repeat scroll 0 0;
-display: block;
-height: 50px;
-position: absolute;
-left: -50px;
-top: 0;
-width: 50px;
+    background: #ececec none repeat scroll 0 0;
+    display: block;
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    left: -50px;
+    top: 0;
 }
 #style-switcher h2 a i {
-color: #fff;
-font-size: 26px;
-right: 12px;
-position: absolute;
-top: 12px;
+    color: #fff;
+    font-size: 26px;
+    position: absolute;
+    right: 12px;
+    top: 12px;
 }
 .colors {
-  padding-left: 7px;
-}
-.colors {
-  list-style: none;
-  margin: 0px 0px 10px 0px;
-  overflow: hidden;
+    list-style: none;
+    margin: 0 0 10px;
+    overflow: hidden;
+    padding-left: 7px;
 }
 .colors li {
-  float: left;
+    float: left;
+    display: block;
+    height: 35px;
+    width: 35px;
+    margin: 6px;
+    border-radius: 100px;
+    cursor: pointer;
+    position: relative;
 }
 .colors li a {
-border-radius: 100px;
-cursor: pointer;
-display: block;
-height: 35px;
-margin: 6px;
-width: 35px;
-}
-.layout-style select {
-  width: 100%;
-  padding: 5px;
-  border: none;
-  margin: 0 0 0 -5px;
-  color: #fff;
-  cursor: pointer;
-}
-#reset {
-  margin: 0 0 15px 2px;
-}
-#reset a {
-  color: #fff;
-  font-size: 12px;
-}
-.style1 {
-  background: #ff5f83;
-}
-.style2 {
-  background: #13bfb1;
-}
-.style3 {
-  background: #2a80b9;
-}
-.style4 {
-  background: #f72459;
-}
-.style5 {
-  background: #27ae62;
-}
-.style6 {
-  background: #e5c51a;
-}
-.style7 {
-  background: #8f44ad;
-}
-.style8 {
-  background: #f39c11;
-}
-.style9 {
-  background: #009688;
-}
-.style10 {
-  background: #ed703a;
-}
-.style11 {
-  background: #96cd02;
-}
-.style12 {
-  background: #f50079;
+    border-radius: 100px;
+    cursor: pointer;
+    display: block;
+    height: 35px;
+    width: 35px;
 }
 .colors li a.active {
-  box-shadow: 0 0 0px 2px #fff;
+    box-shadow: 0 0 0 2px #fff;
 }
-.icon-2x{
+.layout-style select {
+    width: 100%;
+    padding: 5px;
+    border: none;
+    margin: 0 0 0 -5px;
     color: #fff;
-font-size:22px;
-line-height:30px;
+    cursor: pointer;
+}
+#reset {
+    margin: 0 0 15px 2px;
+}
+#reset a {
+    color: #fff;
+    font-size: 12px;
+}
+.style1 { background: #ff5f83; }
+.style2 { background: #13bfb1; }
+.style3 { background: #2a80b9; }
+.style4 { background: #f72459; }
+.style5 { background: #27ae62; }
+.style6 { background: #e5c51a; }
+.style7 { background: #8f44ad; }
+.style8 { background: #f39c11; }
+.style9 { background: #009688; }
+.style10 { background: #ed703a; }
+.style11 { background: #96cd02; }
+.style12 { background: #f50079; }
+
+.icon-2x {
+    color: #fff;
+    font-size: 22px;
+    line-height: 30px;
 }
 
 @media only screen and (max-width: 768px) {
-  #style-switcher {
-    display: none;
-  }
+    #style-switcher {
+        display: none;
+    }
 }

@@ -14,7 +14,7 @@ Key files to inspect
 - assets/js/form-contact.js — client validation and POST payload format.
 - enviar.php — SMTP host/port/auth, mail assembly, error handling.
 - class.phpmailer.php, class.smtp.php, phpmailer/ — PHPMailer copies to keep in sync.
-- assets/css/switcher/switcher.css — optional UI panel; `left: 0;` places it left (change to `right: 0;` + flip the toggle button if you prefer it on the right).
+- assets/css/switcher/switcher.css — optional UI panel; `inset-inline-start: 0;` places it left (change to `inset-inline-end: 0;` + flip the toggle button if you prefer it on the right).
 
 Project-specific conventions & gotchas
 - No Composer/autoloader; PHPMailer is vendored multiple places — update every copy when upgrading.

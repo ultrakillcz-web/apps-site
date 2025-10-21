@@ -27,7 +27,7 @@ $(document).ready(function() {
 
      $("#loader").show();
         $.ajax({
-            url: "contact.php",
+            url: "enviar.php",
             type: "POST",
             data:  new FormData(this),
             contentType: false,
@@ -35,7 +35,7 @@ $(document).ready(function() {
             processData:false,
             success: function(data){
 			  $('form#contact-form').slideUp("fast", function() {
-			  $(this).before('<div class="success">Thank you. Your Email was sent successfully.</div>');
+			  $(this).before('<div class="success">Obrigado. Sua mensagem foi enviada com sucesso.</div>');
 			  $("#loader").hide();
 			  })
             }           

@@ -1,0 +1,29 @@
+server {
+    listen 80;
+    server_name example.local;
+
+    # Root of the project (adjust to your deployment path)
+    root /var/www/apps-group;
+    index index.html index.htm;
+
+    # Ensure UTF-8
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # Uncomment to enable PHP if you deploy enviar.php behind FastCGI
+    #location ~ \.php$ {
+    #    include fastcgi_params;
+    #    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    #    fastcgi_pass 127.0.0.1:9000; # or unix:/run/php/php8.2-fpm.sock;
+    #}
+
+    # Caching for static assets (optional)
+    location ~* \.(css|js|png|jpg|jpeg|gif|svg|ico|woff2?)$ {
+        expires 7d;
+        add_header Cache-Control "public";
+    }
+}
+
