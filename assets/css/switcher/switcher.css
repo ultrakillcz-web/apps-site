@@ -18,7 +18,7 @@ color: #333;
 font-family: montserrat,sans-serif;
 font-size: 14px;
 margin-block-end: 0;
-margin-right: 0;
+margin-inline-end: 0;
 margin-block-start: 0;
 padding: 10px 0;
 text-align: center;
@@ -27,21 +27,21 @@ text-transform: uppercase;
 #style-switcher h2 a {
 background: #ECECEC none repeat scroll 0 0;
 display: block;
-height: 50px;
+block-size: 50px;
 position: absolute;
-left: -50px;
-top: 0;
-width: 50px;
+inset-inline-start: -50px;
+inset-block-start: 0;
+inline-size: 50px;
 }
 #style-switcher h2 a i {
 color: #fff;
 font-size: 26px;
-right: 12px;
+inset-inline-end: 12px;
 position: absolute;
-top: 12px;
+inset-block-start: 12px;
 }
 .colors {
-  padding-left: 7px;
+  padding-inline-start: 7px;
 }
 .colors {
   list-style: none;
@@ -49,18 +49,18 @@ top: 12px;
   overflow: hidden;
 }
 .colors li {
-  float: left;
+  float: inline-start;
 }
 .colors li a {
 border-radius: 100px;
 cursor: pointer;
 display: block;
-height: 35px;
+block-size: 35px;
 margin: 6px;
-width: 35px;
+inline-size: 35px;
 }
 .layout-style select {
-  width: 100%;
+  inline-size: 100%;
   padding: 5px;
   border: none;
   margin: 0 0 0 -5px;

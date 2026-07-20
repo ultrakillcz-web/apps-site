@@ -1,67 +1,282 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>AppsGroup — Site</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AppsGroup</title>
+  <meta name="description" content="Desenvolvemos solu&ccedil;&otilde;es digitais sob medida para apps, integra&ccedil;&otilde;es e plataformas web.">
+  <meta name="author" content="AppsGroup">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&amp;display=swap">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+  <link rel="stylesheet" href="assets/owlcarousel/css/owl.carousel.css">
+  <link rel="stylesheet" href="assets/owlcarousel/css/owl.theme.css">
+  <link rel="stylesheet" href="assets/css/animate.css">
+  <link rel="stylesheet" href="assets/css/component.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/switcher/switcher.css">
+  <link rel="stylesheet" href="assets/css/switcher/style1.css" id="colors">
+  <link rel="icon" type="image/png" href="assets/img/logo.png">
   <style>
-    :root{--bg:#f7f7fb;--primary:#0b5fff;--muted:#6b7280}
-    *{box-sizing:border-box}
-    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:0; color:#111; background:var(--bg); }
-    header { background:var(--primary); color:white; padding:48px 20px; text-align:center; }
-    .container { max-width:1000px; margin:32px auto; padding:0 16px; }
-    .card { background:white; border-radius:12px; padding:20px; box-shadow:0 6px 18px rgba(12,24,63,0.08); margin-bottom:16px; }
-    footer { text-align:center; color:var(--muted); padding:24px 8px; font-size:14px; }
-    a.button { display:inline-block; background:var(--primary); color:white; padding:10px 16px; border-radius:8px; text-decoration:none; margin-top:12px; }
-    nav { display:flex; justify-content:center; gap:12px; margin-top:12px }
-    nav a{color:rgba(255,255,255,0.95); text-decoration:none}
-    @media (min-width:700px){ header{padding:64px 20px} .grid{display:grid; grid-template-columns:1fr 1fr; gap:16px} }
+    .tech-slideshow {
+      block-size: 175px;
+      max-inline-size: 545px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      transform: translate3d(0, 0, 0);
+    }
+    .tech-slideshow > div {
+      block-size: 175px;
+      inline-size: 1720px;
+      background: url(assets/img/logo-slide.jpg);
+      position: absolute;
+      inset-block-start: 0;
+      inset-inline-start: 0;
+      block-size: 100%;
+      transform: translate3d(0, 0, 0);
+    }
+    .tech-slideshow .mover-1 {
+      animation: moveSlideshow 10s linear infinite;
+    }
+    .tech-slideshow .mover-2 {
+      opacity: 0;
+      transition: opacity 0.5s ease-out;
+      background-position: 0 -175px;
+      animation: moveSlideshow 10s linear infinite;
+    }
+    @keyframes moveSlideshow {
+      100% {
+        transform: translateX(-66.6666%);
+      }
+    }
   </style>
 </head>
-<body>
-  <header>
-    <h1>AppsGroup</h1>
-    <p>Bem-vindo ao site da AppsGroup — soluções e aplicações.</p>
-    <nav>
-      <a href="#sobre">Sobre</a>
-      <a href="#contato">Contato</a>
+<body data-spy="scroll" data-offset="80">
+  <div class="preloader">
+    <div class="status">
+      <div class="status-mes"></div>
+    </div>
+  </div>
+
+  <header class="header">
+    <nav class="navbar navbar-default navbar-fixed-top menu-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Alternar navega&ccedil;&atilde;o</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#home">
+            <img src="assets/img/logo.png" alt="AppsGroup">
+          </a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a class="page-scroll" href="#home">In&iacute;cio</a></li>
+            <li><a class="page-scroll" href="#about">Quem Somos</a></li>
+            <li><a class="page-scroll" href="#solutions">Solu&ccedil;&otilde;es</a></li>
+            <li><a class="page-scroll" href="#contact">Contato</a></li>
+          </ul>
+        </div>
+      </div>
     </nav>
   </header>
 
-  <main class="container">
-    <section class="card" id="sobre">
-      <h2>Sobre</h2>
-      <p>Esta é uma página simples de exemplo. Substitua este texto com a descrição da sua organização, projeto ou serviços. Você pode editar o arquivo <code>index.html</code> no repositório para atualizar o conteúdo.</p>
-      <div class="grid">
-        <div>
-          <h3>Serviços</h3>
-          <ul>
-            <li>Desenvolvimento de aplicações</li>
-            <li>Consultoria técnica</li>
-            <li>Design e UX</li>
-          </ul>
+  <section id="home" class="home_bg" data-stellar-background-ratio="0.3" style="background-image: url(assets/img/bg/home-bg.jpg);">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7 col-sm-7">
+          <div class="hero-text">
+            <h2>Constru&iacute;mos apps e plataformas que impulsionam o seu neg&oacute;cio</h2>
+            <p>Equipe multidisciplinar, metodologias &aacute;geis e entregas cont&iacute;nuas do discovery ao lan&ccedil;amento.</p>
+            <a class="btn btn-lg btn-contact-bg page-scroll" href="#contact">Fale com a gente</a>
+          </div>
         </div>
-        <div>
-          <h3>Missão</h3>
-          <p>Entregar soluções digitais eficientes e fáceis de usar que resolvam problemas reais.</p>
+        <div class="col-md-5 col-sm-5">
+          <div class="single_feature_img">
+            <img class="img-responsive wow bounceIn" data-wow-delay=".4s" src="assets/img/mockup3-phone.png" alt="Mockup de aplicativo AppsGroup">
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="card" id="contato">
-      <h2>Contato</h2>
-      <p>Email: <a href="mailto:contato@exemplo.com">contato@exemplo.com</a></p>
-      <p>Telefone: +55 11 9xxxx-xxxx</p>
-      <p><a class="button" href="mailto:contato@exemplo.com">Enviar email</a></p>
-    </section>
-  </main>
+  <section id="about" class="feature-one section-padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5 col-sm-5">
+          <div class="single_feature_one">
+            <h3>Nossa hist&oacute;ria</h3>
+            <p>Nascemos para transformar ideias em experi&ecirc;ncias digitais completas. Atuamos lado a lado com startups, empresas e ag&ecirc;ncias para planejar, construir e evoluir produtos digitais robustos.</p>
+            <p>Combinamos estrat&eacute;gia, design centrado no usu&aacute;rio e engenharia de ponta para entregar aplica&ccedil;&otilde;es seguras, escal&aacute;veis e alinhadas aos objetivos do seu neg&oacute;cio.</p>
+          </div>
+        </div>
+        <div class="col-md-7 col-sm-7">
+          <div class="single_feature_img">
+            <img class="img-responsive wow fadeInRight" data-wow-delay=".3s" src="assets/img/hand.png" alt="AppsGroup em a&ccedil;&atilde;o">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <footer>
-    © <span id="year"></span> AppsGroup — criado com ❤️
+  <section id="solutions" class="amazing_feature section-padding">
+    <div class="container">
+      <div class="row">
+        <div class="section-title text-center wow zoomIn">
+          <h3>Como ajudamos</h3>
+          <div class="line"></div>
+          <p>Da concep&ccedil;&atilde;o ao suporte cont&iacute;nuo, orquestramos todo o ciclo de vida do produto.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 col-sm-4">
+          <div class="single_feature wow fadeInUp" data-wow-delay=".1s">
+            <i class="fa fa-lightbulb-o"></i>
+            <h3>Discovery acelerado</h3>
+            <p>Workshops de imers&atilde;o, prototipa&ccedil;&atilde;o r&aacute;pida e valida&ccedil;&atilde;o com usu&aacute;rios para garantir prioriza&ccedil;&atilde;o assertiva.</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-4">
+          <div class="single_feature wow fadeInUp" data-wow-delay=".2s">
+            <i class="fa fa-mobile"></i>
+            <h3>Apps e integra&ccedil;&otilde;es</h3>
+            <p>Desenvolvimento nativo ou h&iacute;brido, APIs escal&aacute;veis e integra&ccedil;&otilde;es com os principais servi&ccedil;os de nuvem.</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-4">
+          <div class="single_feature wow fadeInUp" data-wow-delay=".3s">
+            <i class="fa fa-line-chart"></i>
+            <h3>Suporte cont&iacute;nuo</h3>
+            <p>Monitoramento, otimiza&ccedil;&otilde;es, analytics e squads dedicados para evoluir o produto ap&oacute;s o lan&ccedil;amento.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="download_area section-padding" style="background:#f7f7fb;">
+    <div class="container">
+      <div class="row">
+        <div class="section-title text-center wow zoomIn">
+          <h3>Parceiros e tecnologias</h3>
+          <div class="line"></div>
+          <p>Selecionamos ferramentas l&iacute;deres para garantir seguran&ccedil;a, performance e escalabilidade.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="tech-slideshow">
+            <div class="mover-1"></div>
+            <div class="mover-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact_area section-padding">
+    <div class="container">
+      <div class="row">
+        <div class="section-title text-center wow zoomIn">
+          <h3>Contato</h3>
+          <div class="line"></div>
+          <p>Conte um pouco sobre o seu projeto. Respondemos em at&eacute; um dia &uacute;til.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-sm-12">
+          <div class="contact">
+            <form id="contact-form" method="post" action="enviar.php">
+              <div class="row">
+                <div class="form-group col-md-12">
+                  <input type="text" name="nome" class="form-control" placeholder="Nome" required>
+                </div>
+                <div class="form-group col-md-12">
+                  <input type="email" name="email" class="form-control" placeholder="Email" required>
+                </div>
+                <div class="form-group col-md-12">
+                  <input type="text" name="assunto" class="form-control" placeholder="Assunto" required>
+                </div>
+                <div class="form-group col-md-12">
+                  <textarea name="corpo" rows="6" class="form-control" placeholder="Mensagem" required></textarea>
+                </div>
+                <div class="col-md-12">
+                  <div class="actions">
+                    <input type="submit" value="Enviar mensagem" class="btn btn-lg btn-contact-bg">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <div class="contact_address">
+            <div class="single-address">
+              <i class="fa fa-map-marker"></i>
+              <h4>Endere&ccedil;o</h4>
+              <p>Rua Leopoldo de Bulh&otilde;es, 59 - Cj 610, Vila Clementino, S&atilde;o Paulo - SP</p>
+            </div>
+            <div class="single-address wow fadeInLeft">
+              <i class="fa fa-phone"></i>
+              <h4>Telefone</h4>
+              <p>+55 11 97996-3140<br>+55 11 3684-0550</p>
+            </div>
+            <div class="single-address wow fadeInLeft">
+              <i class="fa fa-envelope"></i>
+              <h4>Email</h4>
+              <p><a href="mailto:contato@appsgroup.com.br">contato@appsgroup.com.br</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-sm-6 wow zoomIn">
+          <div class="copyright">
+            <p>&copy; <span id="year"></span> AppsGroup. Todos os direitos reservados.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 wow zoomIn">
+          <div class="footer_menu">
+            <ul>
+              <li><a href="#home" class="page-scroll">Voltar ao topo</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   </footer>
 
+  <script src="assets/js/jquery-1.12.4.min.js"></script>
+  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+  <script src="assets/js/modernizr-2.8.3.min.js"></script>
+  <script src="assets/js/jquery.stellar.min.js"></script>
+  <script src="assets/owlcarousel/js/owl.carousel.min.js"></script>
+  <script src="assets/js/scrolltopcontrol.js"></script>
+  <script src="assets/js/form-contact.js"></script>
+  <script src="assets/js/wow.min.js"></script>
+  <script src="assets/js/classie.js"></script>
+  <script src="assets/js/phoneSlideshow.js"></script>
+  <script src="assets/js/switcher.js"></script>
+  <script src="assets/js/scripts.js"></script>
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    (function() {
+      var yearSpan = document.getElementById('year');
+      if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+      }
+    }());
   </script>
 </body>
 </html>
